@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Serie;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
@@ -24,17 +23,20 @@ class SeriesController extends Controller
     
     public function store(Request $request){
       
-      Serie::create($request->all());
-      $request->session()->flash('mensagem.sucesso', 'Série adicionada com sucesso.');
+      $serie = Serie::create($request->all());
 
-      return to_route('series.index');
+
+      return to_route('series.index')->with("mensagem.sucesso", "Série '{$serie->nome}' adicionada com sucesso.");
     }
 
-    public function destroy(Request $request){
-      Serie::destroy($request->series);
+    public function destroy(Serie $series){
 
-      $request->session()->flash('mensagem.sucesso', 'Série removida com sucesso.');
+      $series->delete();
 
-      return to_route('series.index');
+      return to_route('series.index')->with("mensagem.sucesso", "Série '{$series->nome}' removida com sucesso.");
+    }
+
+    public function edit(Serie $series){
+      return view('series.edit')->with('serie', $series);
     }
 }
