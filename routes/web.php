@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SeriesController;
+use App\Http\Controllers\SeasonsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,8 @@ Route::get('/', function () {
 });
 
 Route::resource('/series', SeriesController::class)->except(['show']);
+
+Route::get('/series/{series}/season', [SeasonsController::class, 'index'])->name('seasons.index');
 
 // Route::delete('/series/destroy/{serie}', [SeriesController::class, 'destroy'])->name('series.destroy');
 
