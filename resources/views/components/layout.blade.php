@@ -1,48 +1,53 @@
-<!DOCTYPE html>
-<html lang='pt-BR'>
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }} - Controle de Séries</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a href="{{route('series.index')}}" class="navbar-brand">Home</a>
-            @auth
-            <a href="{{route('logout')}}">Sair</a>
-            @endauth
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ route('series.index') }}">Home</a>
 
-            @guest
-            <a href="{{route('login')}}">Entrar</a>
-            @endguest
-        </div>
-    </nav>    
+        @auth
+        <form action="{{ route('logout') }}" method="post">
+            @csrf
+            <button class="btn btn-link">
+                Sair
+            </button>
+        </form>
+        @endauth
 
-    <div class="container">
-        <h1>{{ $title }}</h1>
+        @guest
+        <a href="{{ route('login') }}">Entrar</a>
+        @endguest
+    </div>
+</nav>
+<div class="container">
+    <h1>{{ $title }}</h1>
 
-        @isset($mensagemSucesso)
+    @isset($mensagemSucesso)
         <div class="alert alert-success">
             {{ $mensagemSucesso }}
         </div>
-        @endisset
+    @endisset
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        {{ $slot }}
-    </div>
+    {{ $slot }}
+</div>
 </body>
 </html>
