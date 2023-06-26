@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
 
@@ -14,11 +15,11 @@ class SeriesController extends Controller
   }
     public function index(Request $request){
 
-        $series = Series::all();
+      $series = Series::all();
 
-        $mensagemSucesso = session('mensagem.sucesso');      
+      $mensagemSucesso = session('mensagem.sucesso');      
       
-        return view('series.index')->with('series', $series)->with('mensagemSucesso', $mensagemSucesso);
+      return view('series.index')->with('series', $series)->with('mensagemSucesso', $mensagemSucesso);
     }
 
     public function create(){ 
