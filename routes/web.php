@@ -1,11 +1,5 @@
 <?php
 
-use App\Http\Controllers\EpisodesController;
-use App\Http\Controllers\SeriesController;
-use App\Http\Controllers\SeasonsController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\UsersController;
-use App\Http\Middleware\Autenticador;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,32 +8,17 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
 Route::get('/', function () {
-    return redirect('/series');
-})->middleware(\App\Http\Middleware\Autenticador::class);
+    return view('welcome');
+});
 
-Route::resource('/series', SeriesController::class)->except(['show']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/series/{series}/season', [SeasonsController::class, 'index'])->name('seasons.index');
-
-Route::get('/seasons/{season}/episodes', [EpisodesController::class, 'index'])->name('episodes.index');
-Route::post('/seasons/{season}/episodes', [EpisodesController::class, 'update'])->name('episodes.update');
-
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login', [LoginController::class, 'store'])->name('signin');
-Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
-
-Route::get('/register', [UsersController::class, 'create'])->name('users.create');
-Route::post('/register', [UsersController::class, 'store'])->name('users.store');
-// Route::delete('/series/destroy/{serie}', [SeriesController::class, 'destroy'])->name('series.destroy');
-
-// Route::controller(SeriesController::class)->group(function (){
-//     Route::get('/series', 'index')->name('series.index');
-//     Route::get('/series/criar', 'create')->name('series.create');
-//     Route::post('/series/salvar', 'store')->name('series.store');
-// });
+require __DIR__ . '/auth.php';
