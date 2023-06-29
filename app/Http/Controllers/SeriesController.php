@@ -38,6 +38,7 @@ class SeriesController extends Controller
 
         $userList = User::all();
         foreach ($userList as $index => $user) {
+            
             $qtdTemporadas = (int)$request->seasonsQty;
             $email = new SeriesCreated(
                 $serie->nome,
