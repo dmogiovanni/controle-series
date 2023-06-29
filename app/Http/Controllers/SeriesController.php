@@ -38,10 +38,11 @@ class SeriesController extends Controller
 
         $userList = User::all();
         foreach ($userList as $user) {
+            $qtdTemporadas = (int)$request->seasonsQty;
             $email = new SeriesCreated(
                 $serie->nome,
                 $serie->id,
-                $request->seasonsQty,
+                $qtdTemporadas,
                 $request->episodesPerSeason,
             );
             Mail::to($user)->send($email);
